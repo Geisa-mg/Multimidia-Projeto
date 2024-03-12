@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
 import "./globals.css";
+import HomeContextProvider from "./context/HomeContext";
 
 const poppins = Poppins(
   {
@@ -21,7 +22,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <HomeContextProvider>
       <body className={poppins.variable}>{children}</body>
+      </HomeContextProvider>
     </html>
   );
 }

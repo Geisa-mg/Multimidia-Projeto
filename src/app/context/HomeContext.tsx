@@ -1,5 +1,6 @@
-import { ReactNode, useState } from "react";
-import { createContext } from "vm";
+'use client'
+
+import { ReactNode, createContext, useState } from "react";
 
 type HomeContextData = {
     videoURL: string;
@@ -19,7 +20,8 @@ const HomeContextProvider = ({children}: ProviderProps) => {
     return (
         <HomeContext.Provider value={
             {
-     
+                videoURL,
+                playing
             }
         }>
          {children}
@@ -27,3 +29,4 @@ const HomeContextProvider = ({children}: ProviderProps) => {
     )
 }
 
+export default HomeContextProvider;
