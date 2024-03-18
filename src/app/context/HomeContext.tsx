@@ -1,10 +1,12 @@
 'use client'
 
-import { ReactNode, createContext, useState } from "react";
+import { ReactNode, RefObject, createContext, useRef, useState } from "react";
 
 type HomeContextData = {
     videoURL: string;
     playing: boolean;
+    videoRef: RefObject<HTMLVideoElement>;
+    playPause: () => void;
 }
 
 export const HomeContext =
@@ -17,11 +19,28 @@ type ProviderProps = {
 const HomeContextProvider = ({children}: ProviderProps) => {
     const [videoURL, setVideoURL] = useState("video/video01.mp4");
     const [playing, setPlaying] = useState(false);
+    const videoRef = useRef<HTMLVideoElement>(null);
+
+    const playPause = ()  => {
+        const video = videoRef.current;
+        if (!video) return;
+
+        if (playing) {
+           video.pause();     
+        }
+        else {
+            video.play();
+        }
+        setPlaying(!playing);
+    }
+
     return (
         <HomeContext.Provider value={
             {
                 videoURL,
-                playing
+                playing,
+                videoRef,
+                playPause
             }
         }>
          {children}

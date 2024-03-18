@@ -6,7 +6,9 @@ import { HomeContext } from "./context/HomeContext";
 export default function Home() {
   const {
     videoURL,
-    playing
+    playing,
+    videoRef,
+    playPause
   } = useContext(HomeContext);
   return (
     <main>
@@ -14,7 +16,10 @@ export default function Home() {
       Home {videoURL} - {playing ? "true" : "false"}
      </h1>
 
-     <video controls src="video/video01.mp4"></video>
+     <video ref={videoRef} controls src="video/video01.mp4"></video>
+
+     <button onClick={playPause}>play/pause</button>
+
     </main>
   );
 }
