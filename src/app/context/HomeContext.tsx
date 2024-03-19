@@ -5,8 +5,11 @@ import { ReactNode, RefObject, createContext, useRef, useState } from "react";
 type HomeContextData = {
     videoURL: string;
     playing: boolean;
+    totalTime: number;
+    currentTime: number;
     videoRef: RefObject<HTMLVideoElement>;
     playPause: () => void;
+    configCurrentTime: (time:number) => void;
 }
 
 export const HomeContext =
@@ -19,7 +22,16 @@ type ProviderProps = {
 const HomeContextProvider = ({children}: ProviderProps) => {
     const [videoURL, setVideoURL] = useState("video/video01.mp4");
     const [playing, setPlaying] = useState(false);
+    const [totalTime, setTotalTime] = useState(1000);
+    const [currentTime, setCurrentTime] = useState(0);
     const videoRef = useRef<HTMLVideoElement>(null);
+
+    const configCurrentTime = (time: number) => {
+        const video = videoRef.current;
+        if (!video) return;
+        video.currentTime = time;
+        setCurrentTime(time);
+    }
 
     const playPause = ()  => {
         const video = videoRef.current;
@@ -39,8 +51,11 @@ const HomeContextProvider = ({children}: ProviderProps) => {
             {
                 videoURL,
                 playing,
+                totalTime,
+                currentTime,
                 videoRef,
-                playPause
+                playPause,
+                configCurrentTime
             }
         }>
          {children}

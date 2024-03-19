@@ -2,13 +2,17 @@
 
 import { useContext } from "react";
 import { HomeContext } from "./context/HomeContext";
+import { FaPause, FaPlay } from "react-icons/fa";
 
 export default function Home() {
   const {
     videoURL,
     playing,
+    totalTime,
+    currentTime,
     videoRef,
-    playPause
+    playPause,
+    configCurrentTime
   } = useContext(HomeContext);
   return (
     <main>
@@ -17,8 +21,20 @@ export default function Home() {
      </h1>
 
      <video ref={videoRef} controls src="video/video01.mp4"></video>
+     <input 
+        type="range"
+        min={0}
+        max={totalTime}
+        value={currentTime}
+        onChange={(e) => configCurrentTime(Number(e.target.value))}
+      >
 
-     <button onClick={playPause}>play/pause</button>
+     </input>
+     <button onClick={playPause}>
+      
+      {playing ? <FaPause /> : <FaPlay />}
+      
+      </button>
 
     </main>
   );
