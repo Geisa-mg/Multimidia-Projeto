@@ -15,27 +15,23 @@ export default function Home() {
     configCurrentTime
   } = useContext(HomeContext);
   return (
-    <main>
-     <h1 className="font-bold text-black">
-      Home {videoURL} - {playing ? "true" : "false"}
-     </h1>
-
-     <video ref={videoRef} controls src="video/video01.mp4"></video>
-     <input 
-        type="range"
-        min={0}
-        max={totalTime}
-        value={currentTime}
-        onChange={(e) => configCurrentTime(Number(e.target.value))}
-      >
-
-     </input>
-     <button onClick={playPause}>
-      
-      {playing ? <FaPause /> : <FaPlay />}
-      
-      </button>
-
+    <main className="mx-auto w-[80%] mt-2">
+      <div className="w-[640px]">
+        <video width={640} ref={videoRef} controls src={videoURL}></video>
+        <div className="bg-black">
+          <input
+            type="range"
+            min={0}
+            max={totalTime}
+            value={currentTime}
+            onChange={(e) => configCurrentTime(Number(e.target.value))}
+          >
+          </input>
+          <button onClick={playPause}>
+            {playing ? <FaPause /> : <FaPlay />}
+          </button>
+        </div>
+      </div>
     </main>
   );
 }

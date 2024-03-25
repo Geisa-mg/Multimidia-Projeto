@@ -1,6 +1,6 @@
 'use client'
 
-import { ReactNode, RefObject, createContext, useRef, useState } from "react";
+import { ReactNode, RefObject, createContext, useEffect, useRef, useState } from "react";
 
 type HomeContextData = {
     videoURL: string;
@@ -20,11 +20,26 @@ type ProviderProps = {
 }
 
 const HomeContextProvider = ({children}: ProviderProps) => {
-    const [videoURL, setVideoURL] = useState("video/video01.mp4");
+    const [videoURL, setVideoURL] = useState("");
     const [playing, setPlaying] = useState(false);
-    const [totalTime, setTotalTime] = useState(1000);
+    const [totalTime, setTotalTime] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
     const videoRef = useRef<HTMLVideoElement>(null);
+
+    useEffect(()=>{
+        setVideoURL("video/video01.mp4");
+    }, []);
+
+    useEffect(() => {
+        const video = videoRef.current;
+        if (video) {
+            video.onloadedmetadata = () => {
+                setTotalTime(video.duration);
+                setCurrentTime(video.currentTime);
+            }
+        }
+
+    }, [videoURL]);
 
     const configCurrentTime = (time: number) => {
         const video = videoRef.current;
