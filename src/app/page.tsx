@@ -27,7 +27,7 @@ export default function Home() {
             onChange={(e) => configCurrentTime(Number(e.target.value))}
           >
           </input>
-          <button onClick={playPause}>
+          <button className="text-white" onClick={playPause}>
             {playing ? <FaPause /> : <FaPlay />}
           </button>
         </div>
