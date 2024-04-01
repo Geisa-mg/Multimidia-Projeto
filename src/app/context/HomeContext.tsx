@@ -11,6 +11,7 @@ type HomeContextData = {
     videoRef: RefObject<HTMLVideoElement>;
     playPause: () => void;
     configCurrentTime: (time:number) => void;
+    configVideo: (index: number) => void;
 }
 
 export const HomeContext =
@@ -88,7 +89,8 @@ const HomeContextProvider = ({children}: ProviderProps) => {
                 currentTime,
                 videoRef,
                 playPause,
-                configCurrentTime
+                configCurrentTime,
+                configVideo
             }
         }>
          {children}
