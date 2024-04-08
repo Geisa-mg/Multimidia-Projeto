@@ -12,6 +12,7 @@ export default function Home() {
     totalTime,
     currentTime,
     videoRef,
+    canvasRef,
     playPause,
     configCurrentTime,
     configVideo
@@ -19,7 +20,9 @@ export default function Home() {
   return (
     <main className="mx-auto w-[80%] mt-2 flex">
       <div className="w-[65%] mr-1">
-        <video className="w-full" ref={videoRef} src={videoURL}></video>
+        <video className="w-full" ref={videoRef} src={videoURL} hidden></video>
+        <canvas className="w-full h-[380px]" ref={canvasRef}></canvas>
+
         <div className="bg-black">
           <input
             type="range"
