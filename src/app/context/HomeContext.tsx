@@ -2,28 +2,7 @@
 
 import { ReactNode, RefObject, createContext, useEffect, useRef, useState } from "react";
 import videos, { Video } from "../data/video";
-
-abstract class Filter {
-    red: number;
-    green: number;
-    blue: number;
-    
-    constructor() {
-        this.red = 0;
-        this.green = 0;
-        this.blue = 0;
-    }
-
-    abstract calc(red: number, green: number, blue:number): void;
-}
-
-class GreenFilter extends Filter {
-    calc(red: number, green: number, blue: number): void {
-        this.red = 0;
-        this.green = green;
-        this.blue = 0;
-    }
-}
+import { Filter, GreenFilter, filters } from "../data/Filter";
 
 type HomeContextData = {
     videoURL: string;
@@ -35,6 +14,7 @@ type HomeContextData = {
     playPause: () => void;
     configCurrentTime: (time:number) => void;
     configVideo: (index: number) => void;
+    configFilter: (index: number) => void;
 }
 
 export const HomeContext =
@@ -47,6 +27,7 @@ type ProviderProps = {
 const HomeContextProvider = ({children}: ProviderProps) => {
     const [videoURL, setVideoURL] = useState("");
     const [videoIndex, setVideoIndex] = useState(0);
+    const [filterIndex, setFilterIndex] = useState(0);
     const [playing, setPlaying] = useState(false);
     const [totalTime, setTotalTime] = useState(0);
     const [currentTime, setCurrentTime] = useState(0);
@@ -63,6 +44,10 @@ const HomeContextProvider = ({children}: ProviderProps) => {
         const currentVideoURL = currentVideo.videoURL;
         setVideoURL(currentVideoURL);
         setVideoIndex(currentIndex);
+    }
+    
+    const configFilter = (index: number) => {
+        setFilterIndex(index);
     }
 
     useEffect(() => {
@@ -87,8 +72,8 @@ const HomeContextProvider = ({children}: ProviderProps) => {
                 configVideo(videoIndex + 1);
             }
         }
-
-    }, [videoURL]);
+        draw();
+    }, [videoURL, filterIndex]);
 
     const configCurrentTime = (time: number) => {
         const video = videoRef.current;
@@ -120,7 +105,7 @@ const HomeContextProvider = ({children}: ProviderProps) => {
         context.drawImage(video, 0, 0, canvas.width, canvas.height);
         const imageData = context.getImageData(0, 0, canvas.width, canvas.height);
         const data = imageData.data;
-        const filter: Filter = new GreenFilter();
+        const filter:Filter = filters[filterIndex];
         for (var i = 0; i < data.length; i+=4) {
             const red = data[i + 0];
             const green = data[i + 1];
@@ -147,7 +132,8 @@ const HomeContextProvider = ({children}: ProviderProps) => {
                 canvasRef,
                 playPause,
                 configCurrentTime,
-                configVideo
+                configVideo,
+                configFilter
             }
         }>
          {children}

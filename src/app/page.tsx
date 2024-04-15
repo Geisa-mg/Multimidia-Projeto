@@ -4,6 +4,7 @@ import { useContext } from "react";
 import { HomeContext } from "./context/HomeContext";
 import { FaPause, FaPlay } from "react-icons/fa";
 import videos, { Video } from './data/video';
+import { convertTimeToString } from "./utils/Utils";
 
 export default function Home() {
   const {
@@ -15,7 +16,8 @@ export default function Home() {
     canvasRef,
     playPause,
     configCurrentTime,
-    configVideo
+    configVideo,
+    configFilter
   } = useContext(HomeContext);
   return (
     <main className="mx-auto w-[80%] mt-2 flex">
@@ -42,6 +44,15 @@ export default function Home() {
           <button className="text-white" onClick={playPause}>
             {playing ? <FaPause /> : <FaPlay />}
           </button>
+          <select onChange={(e) => configFilter(Number(e.target.value))}>
+            <option selected value={0}>Verde</option>
+            <option value={1}>Azul</option>
+            <option value={2}>Vermelho</option>
+            <option value={3}>Preto e branco</option>
+          </select>
+          <span className="text-white">
+          {convertTimeToString(currentTime)}:{convertTimeToString(totalTime)}
+          </span>
         </div>
       </div>
       <div className="w-[35%] h-[100vh]">
