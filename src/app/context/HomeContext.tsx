@@ -131,7 +131,7 @@ const HomeContextProvider = ({children}: ProviderProps) => {
             data[i + 1] = filter.green;
             data[i + 2] = filter.blue;
         }
-
+     
         context.putImageData(imageData, 0, 0);
         requestAnimationFrame(draw);
     }

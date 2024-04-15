@@ -24,7 +24,14 @@ export default function Home() {
         <canvas className="w-full h-[380px]" ref={canvasRef}></canvas>
 
         <div className="bg-black">
-          <input
+          <input className="appearance-none
+                            [&::-webkit-slider-runnable-track]:appearance-none
+                            [&::-webkit-slider-thumb]:appearance-none
+                            [&::-webkit-slider-runnable-track]:bg-[tomato]
+                            [&::-webkit-slider-runnable-track]:h-[10px]
+                            [&::-webkit-slider-thumb]:h-[10px]
+                            [&::-webkit-slider-thumb]:w-[10px]
+                            [&::-webkit-slider-thumb]:bg-[green]"
             type="range"
             min={0}
             max={totalTime}
