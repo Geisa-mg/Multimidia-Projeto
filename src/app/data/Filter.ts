@@ -12,6 +12,15 @@ export abstract class Filter {
     abstract calc(red: number, green: number, blue:number): void;
 }
 
+export class FazNadaFilter extends Filter {
+    calc(red: number, green: number, blue: number): void {
+        this.red = red;
+        this.green = green;
+        this.blue = blue;
+    }
+}
+
+
 export class GreenFilter extends Filter {
     calc(red: number, green: number, blue: number): void {
         this.red = 0;
@@ -46,6 +55,7 @@ export class GrayFilter extends Filter {
 }
 
 export const filters: Filter[] = [
+    new FazNadaFilter(),
     new GreenFilter(),
     new BlueFilter(),
     new RedFilter(),

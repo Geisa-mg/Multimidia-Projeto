@@ -1,12 +1,13 @@
 'use client'
 
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { HomeContext } from "./context/HomeContext";
 import { FaPause, FaPlay } from "react-icons/fa";
 import videos, { Video } from './data/video';
 import { convertTimeToString } from "./utils/Utils";
 
 export default function Home() {
+  const [showFilter, setShowFilter] = useState(true);
   const {
     videoURL,
     playing,
@@ -22,8 +23,8 @@ export default function Home() {
   return (
     <main className="mx-auto w-[80%] mt-2 flex">
       <div className="w-[65%] mr-1">
-        <video className="w-full" ref={videoRef} src={videoURL} hidden></video>
-        <canvas className="w-full h-[380px]" ref={canvasRef}></canvas>
+        <video className="w-full" ref={videoRef} src={videoURL} hidden={showFilter}></video>
+        <canvas className="w-full h-[380px]" ref={canvasRef} hidden={!showFilter}></canvas>
 
         <div className="bg-black">
           <input className="appearance-none
@@ -31,7 +32,7 @@ export default function Home() {
                             [&::-webkit-slider-thumb]:appearance-none
                             [&::-webkit-slider-runnable-track]:bg-[tomato]
                             [&::-webkit-slider-runnable-track]:h-[10px]
-                            [&::-webkit-slider-thumb]:h-[10px]
+                            [&::-webkit-slidershowFilter-thumb]:h-[10px]
                             [&::-webkit-slider-thumb]:w-[10px]
                             [&::-webkit-slider-thumb]:bg-[green]"
             type="range"
@@ -44,12 +45,14 @@ export default function Home() {
           <button className="text-white" onClick={playPause}>
             {playing ? <FaPause /> : <FaPlay />}
           </button>
-          <select onChange={(e) => configFilter(Number(e.target.value))}>
-            <option selected value={0}>Verde</option>
-            <option value={1}>Azul</option>
-            <option value={2}>Vermelho</option>
-            <option value={3}>Preto e branco</option>
+          <select onChange={(e) => configFilter(Number(e.target.value))} hidden={!showFilter}>
+          <option selected value={0}>Sem filtro</option>
+            <option value={1}>Verde</option>
+            <option value={2}>Azul</option>
+            <option value={3}>Vermelho</option>
+            <option value={4}>Preto e branco</option>
           </select>
+        <input type="checkbox" name="Filtro" onChange={()=>setShowFilter(!showFilter)}/>
           <span className="text-white">
           {convertTimeToString(currentTime)}:{convertTimeToString(totalTime)}
           </span>
